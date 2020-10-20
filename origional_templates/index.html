@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./js/main.js">
+
+</head>
+
+<body>
+
+
+    <div>setAttribute
+        <div class="w3-bar w3-light-grey w3-large">
+            <a href="#" class="w3-bar-item w3-button"><strong>URL</strong>Shortner</a>
+            <a href="#" class="w3-bar-item w3-button w3-right">Login</a>
+            <a href="#" class="w3-bar-item w3-button w3-right">Register</a>
+        </div>
+    </div>
+
+    <div id="page-content" class="w3-margin">
+
+        <!-- Stats -->
+        <div class="w3-container w3-round-large" style="height: 300px; background-color: rgb(220, 220, 220);;">
+
+        </div>
+
+        <form class="w3-padding-16 w3-margin-top w3-margin-bottom w3-round-large" action="/action_page.php"
+            style="background-color: rgb(220, 220, 220);">
+            <div class="w3-row">
+                <div id="long-url-input" class="w3-col l11" style="padding-right: 16px; padding-left: 16px;">
+                    <input class="w3-input w3-border w3-round-large" name="long-url" type="url">
+                </div>
+                <div id="custom-url-input" class="w3-col l4 w3-hide" style="padding-right: 16px;">
+                    <input class="w3-input w3-border w3-round-large" name="long-url" type="url">
+                </div>
+                <div class="w3-col l1" style="padding-right: 16px;">
+                    <button class="w3-btn w3-blue w3-round-large" style="width: 100%;">Login</button>
+                </div>
+                <div class="w3-row w3-margin-left">
+                    <input id="custom-url-checkbox" class="w3-check" type="checkbox" onchange="toggleCustomUrl()">
+                    <label>Custom url</label>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="w3-margin-top w3-padding-16 w3-round-large" style="background-color: rgb(220, 220, 220);">
+            <ul class="w3-ul w3-hoverable">
+                <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo1')">
+                    <p><strong>Link Name</strong></p>
+                    <p class="">Short URL</p>
+                    <div id="Demo1" class="w3-hide">
+                        <ul class="w3-ul">
+                            <li>Jill</li>
+                            <li>Eve</li>
+                            <li>Adam</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo2')">
+                    <p><strong>Link Name</strong></p>
+                    <p class="">Short URL</p>
+                    <div id="Demo2" class="w3-hide">
+                        <ul class="w3-ul">
+                            <li>Jill</li>
+                            <li>Eve</li>
+                            <li>Adam</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo3')">
+                    <p><strong>Link Name</strong></p>
+                    <p class="">Short URL</p>
+                    <div id="Demo3" class="w3-hide">
+                        <ul class="w3-ul">
+                            <li>Jill</li>
+                            <li>Eve</li>
+                            <li>Adam</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo3')">
+                    <p><strong>Link Name</strong></p>
+                    <p class="">Short URL</p>
+                    <div id="Demo3" class="w3-hide">
+                        <ul class="w3-ul">
+                            <li>Jill</li>
+                            <li>Eve</li>
+                            <li>Adam</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo3')">
+                    <p><strong>Link Name</strong></p>
+                    <p class="">Short URL</p>
+                    <div id="Demo3" class="w3-hide">
+                        <ul class="w3-ul">
+                            <li>Jill</li>
+                            <li>Eve</li>
+                            <li>Adam</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+
+    </div>
+
+    <script>
+        function myFunction(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+
+        function toggleCustomUrl() {
+            var checkBox = document.getElementById("custom-url-checkbox");
+            var customUrlInput = document.getElementById("custom-url-input");
+            var longUrlInput = document.getElementById("long-url-input");
+
+            if (checkBox.checked == true) {
+                customUrlInput.className += " w3-show";
+                customUrlInput.firstChild.required = true;
+                longUrlInput.className = longUrlInput.className.replace(" l11", " l7");
+
+            } else {
+                customUrlInput.className = customUrlInput.className.replace(" w3-show", "");
+                customUrlInput.firstChild.required = false;
+                longUrlInput.className = longUrlInput.className.replace(" l7", " l11");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
