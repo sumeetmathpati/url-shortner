@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "navbar.html" import navbar %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block navbar %}
+{{ navbar(user) }}
+{% endblock %}
+
+{% block page_content %}
+<div class="w3-border w3-round-large w3-content">
+    <div class="w3-container w3-blue " style="border-top-left-radius: inherit; border-top-right-radius: inherit;">
+        <h2>Register</h2>
+    </div>
+    <form class="w3-container" method="POST" action="{{ url_for('register') }}">
+        {% if error %}
+        <div class="w3-panel w3-pale-red w3-round-large" style="border: 1px solid red;">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+        <p>
+            <label class="w3-text-blue"><b>Username</b></label>
+            <input class="w3-input w3-border w3-round-large" name="username" type="text"></p>
+        <p>
+            <label class="w3-text-blue"><b>Password</b></label>
+            <input class="w3-input w3-border w3-round-large" name="password" type="password"></p>
+        <p>
+            <button class="w3-btn w3-blue w3-round-large">Register</button></p>
+    </form>
+</div>
+{% endblock %}

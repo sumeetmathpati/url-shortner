@@ -1,0 +1,22 @@
+{% macro navbar(user) %}
+
+<div class="w3-bar w3-light-grey w3-large">
+
+    <a href="{{ url_for('index') }}" class="w3-bar-item w3-button"><strong>URL</strong>Shortner</a>
+
+    {% if user %}
+
+    <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-right">Logout</a>
+
+    {% else %}
+
+    <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-right">Login</a>
+    <a href="{{ url_for('register') }}" class="w3-bar-item w3-button w3-right">Register</a>
+
+    {% endif %}
+
+    
+    
+</div>
+
+{% endmacro %}
