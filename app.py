@@ -59,6 +59,7 @@ def index():
 	db = get_db()
 	error = None
 	user_urls = None
+	base_url = request.base_url
 
 	if user:
 
@@ -121,7 +122,7 @@ def index():
 					FROM urls WHERE user_id = %s''', (user['id'], ))
 		user_urls = db.fetchall()
 	
-	return render_template('index.html', user=user, urls=user_urls, error=error)
+	return render_template('index.html', user=user, urls=user_urls, error=error, base_url=base_url)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

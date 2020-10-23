@@ -50,7 +50,7 @@ URL shortner
         <li class="w3-margin-left w3-margin-right w3-margin-top w3-border">
             <a href="{{ url_for('delete_entry', url_id=url['id']) }}"><span class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span></a>
             <p style="font-size: 20px;"><strong>{% if url['url_name'] %} {{ url['url_name'] }} {% else %} {{ url['long_url'] }} {% endif %}</strong></p>
-            <a style="text-decoration: none;" href="{{ url['long_url'] }}"><p class="w3-text-blue">{{ url['short_url'] }}</p></a>
+            <a style="text-decoration: none;" href="{{ url['long_url'] }}"><p class="w3-text-blue">{{ base_url }}{{ url['short_url'] }}</p></a>
             
         </li>
         {% endfor %}
