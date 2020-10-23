@@ -2,7 +2,7 @@
 {% from "navbar.html" import navbar %}
 
 {% block title %}
-Home
+URL shortner
 {% endblock %}
 
 {% block navbar %}
@@ -11,89 +11,62 @@ Home
 
 {% block page_content %}
 
-<div class="w3-container w3-round-large" style="height: 300px; background-color: rgb(220, 220, 220);;">
+{% if user %}
 
-</div>
+<form class="w3-padding-16 w3-border-bottom" method="POST" action="{{ url_for('index') }}">
 
-<form class="w3-padding-16 w3-margin-top w3-margin-bottom w3-round-large" action="/action_page.php"
-    style="background-color: rgb(220, 220, 220);">
     <div class="w3-row">
-        <div id="long-url-input" class="w3-col l11" style="padding-right: 16px; padding-left: 16px;">
-            <input class="w3-input w3-border w3-round-large" name="long-url" type="url">
+        <div id="long-url-input" class="w3-col l7" style="padding-right: 16px; padding-left: 16px;">
+            <input class="w3-input w3-border" placeholder="https://example.com" name="long-url" type="url" required>
         </div>
-        <div id="custom-url-input" class="w3-col l4 w3-hide" style="padding-right: 16px;">
-            <input class="w3-input w3-border w3-round-large" name="long-url" type="url">
-        </div>
-        <div class="w3-col l1" style="padding-right: 16px;">
-            <button class="w3-btn w3-blue w3-round-large" style="width: 100%;">Login</button>
+        <div class="w3-col l4" style="padding-right: 16px; padding-left: 16px;">
+            <input class="w3-input w3-border" placeholder="Name" name="url-name" type="text">
         </div>
         <div class="w3-row w3-margin-left">
-            <input id="custom-url-checkbox" class="w3-check" type="checkbox" onchange="toggleCustomUrl()">
+            <input id="custom-url-checkbox" class="w3-check w3-margin-top" type="checkbox" onchange="toggleCustomUrl()">
             <label>Custom url</label>
+            <div id="custom-url-input" class="w3-input w3-hide w3-border w3-margin-top">
+                <label>base_url/</label>
+                <input placeholder="Custom url" name="custom-url" type="text" style="border: 0;">
+            </div>
+
+        </div>
+        <div class="w3-row w3-margin">
+            <button class="w3-btn w3-blue">Submit</button>
+            {% if error %}
+            <div class="w3-panel w3-pale-red" style="border: 1px solid red;">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 
 </form>
 
-<div class="w3-margin-top w3-padding-16 w3-round-large" style="background-color: rgb(220, 220, 220);">
-    <ul class="w3-ul w3-hoverable">
-        <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo1')">
-            <p><strong>Link Name</strong></p>
-            <p class="">Short URL</p>
-            <div id="Demo1" class="w3-hide">
-                <ul class="w3-ul">
-                    <li>Jill</li>
-                    <li>Eve</li>
-                    <li>Adam</li>
-                </ul>
-            </div>
+<div class="w3-padding-16 w3-round-large" style="overflow-y: auto;">
+    <ul class="w3-ul">
+
+        {% for url in urls %}
+        <li class="w3-margin-left w3-margin-right w3-margin-top w3-border">
+            <a href="{{ url_for('delete_entry', url_id=url['id']) }}"><span class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span></a>
+            <p style="font-size: 20px;"><strong>{% if url['url_name'] %} {{ url['url_name'] }} {% else %} {{ url['long_url'] }} {% endif %}</strong></p>
+            <a style="text-decoration: none;" href="{{ url['long_url'] }}"><p class="w3-text-blue">{{ url['short_url'] }}</p></a>
+            
         </li>
-        <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo2')">
-            <p><strong>Link Name</strong></p>
-            <p class="">Short URL</p>
-            <div id="Demo2" class="w3-hide">
-                <ul class="w3-ul">
-                    <li>Jill</li>
-                    <li>Eve</li>
-                    <li>Adam</li>
-                </ul>
-            </div>
-        </li>
-        <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo3')">
-            <p><strong>Link Name</strong></p>
-            <p class="">Short URL</p>
-            <div id="Demo3" class="w3-hide">
-                <ul class="w3-ul">
-                    <li>Jill</li>
-                    <li>Eve</li>
-                    <li>Adam</li>
-                </ul>
-            </div>
-        </li>
-        <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo3')">
-            <p><strong>Link Name</strong></p>
-            <p class="">Short URL</p>
-            <div id="Demo3" class="w3-hide">
-                <ul class="w3-ul">
-                    <li>Jill</li>
-                    <li>Eve</li>
-                    <li>Adam</li>
-                </ul>
-            </div>
-        </li>
-        <li class="w3-round-large w3-margin-left w3-margin-right" onclick="myFunction('Demo3')">
-            <p><strong>Link Name</strong></p>
-            <p class="">Short URL</p>
-            <div id="Demo3" class="w3-hide">
-                <ul class="w3-ul">
-                    <li>Jill</li>
-                    <li>Eve</li>
-                    <li>Adam</li>
-                </ul>
-            </div>
-        </li>
+        {% endfor %}
     </ul>
 </div>
+
+{% else %}
+
+<div class="w3-container w3-content">
+
+    <h1 class="w3-blue w3-text-white" style="font-size: 64px; font-weight: bold;">You have to login first</h1>
+    <h1 class="w3-blue w3-text-white">To get your URL shortened.</h1>
+
+</div>
+
+{% endif %}
 
 {% endblock %}
 
@@ -112,18 +85,18 @@ Home
     function toggleCustomUrl() {
         var checkBox = document.getElementById("custom-url-checkbox");
         var customUrlInput = document.getElementById("custom-url-input");
-        var longUrlInput = document.getElementById("long-url-input");
 
         if (checkBox.checked == true) {
-            customUrlInput.className += " w3-show";
+
+            customUrlInput.className = customUrlInput.className.replace(" w3-hide", "");
             customUrlInput.firstChild.required = true;
-            longUrlInput.className = longUrlInput.className.replace(" l11", " l7");
 
         } else {
-            customUrlInput.className = customUrlInput.className.replace(" w3-show", "");
+            customUrlInput.className += " w3-hide";
             customUrlInput.firstChild.required = false;
-            longUrlInput.className = longUrlInput.className.replace(" l7", " l11");
         }
     }
+
+
 </script>
 {% endblock %}
