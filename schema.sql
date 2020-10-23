@@ -1,14 +1,11 @@
 -- Postgres
 
-CREATE TABLE public.users
-(
-    id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass),
-    username character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    password character varying(200) COLLATE pg_catalog."default" NOT NULL,
-    admin boolean NOT NULL,
-    CONSTRAINT users_pkey PRIMARY KEY (id),
-    CONSTRAINT users_username_key UNIQUE (username)
-)
+CREATE TABLE users (
+    id serial primary key,
+    username text not null unique,
+    password text not null,
+    admin boolean not null
+);
 
 CREATE TABLE public.urls
 (
