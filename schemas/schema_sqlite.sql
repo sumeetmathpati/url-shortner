@@ -5,17 +5,11 @@ CREATE TABLE users (
     admin boolean not null
 );
 
-CREATE TABLE public.urls
-(
+CREATE TABLE urls (
     id int primary key autoincrement,
-    short_url text COLLATE pg_catalog."default" NOT NULL,
-    long_url text COLLATE pg_catalog."default" NOT NULL,
-    user_id bigint,
-    url_name text COLLATE pg_catalog."default",
-    CONSTRAINT urls_pkey PRIMARY KEY (id),
-    CONSTRAINT urls_long_url_user_id_key UNIQUE (long_url, user_id),
-    CONSTRAINT urls_user_id_fkey FOREIGN KEY (user_id)
-        REFERENCES public.users (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    short_url text,
+    long_url text ,
+    user_id int references users(id),
+    url_name text,
+    unique(long_url, user_id)
 )
