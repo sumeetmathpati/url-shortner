@@ -12,7 +12,10 @@ app.config['SECRET_KEY'] = b'\xb3h4\xacmR7!F\xa7\xcc\x00\x04Jh b\xd3\xb55\xa2\xf
 def close_db(error):
 
 	if hasattr(g, 'postgres_db_cur'):
-		g.sqlite_db.close()
+		g.postgres_db_cur.close()
+
+	if hasattr(g, 'postgres_db_conn'):
+		g.postgres_db_conn.close()
 
 def get_current_session_user():
 
@@ -22,8 +25,8 @@ def get_current_session_user():
 		user = session['user']
 
 		db = get_db()
-		user_cur = db.execute('SELECT id, username, password, admin FROM users WHERE username = ?', [user])
-		user_result = user_cur.fetchone()
+		db.execute('SELECT id, username, password, admin FROM users WHERE username = %s', (user, ))
+		user_result = db.fetchone()
 	
 	return user_result
 
@@ -39,8 +42,8 @@ def redirect_short_url(short_url):
 	db = get_db()
 
 
-	long_url_cur = db.execute('SELECT long_url FROM urls WHERE short_url = ?', [short_url])
-	long_url = long_url_cur.fetchone()
+	db.execute('SELECT long_url FROM urls WHERE short_url = %s', (short_url, ))
+	long_url = db.fetchone()
 
 	print(long_url)
 
@@ -73,8 +76,8 @@ def index():
 			else:
 
 				# Check if long url is already used by this user
-				url_cur = db.execute('SELECT url_name FROM urls WHERE long_url = ? AND user_id = ?', [request.form['long-url'], user['id']])
-				if (url_cur.fetchone()):
+				db.execute('SELECT url_name FROM urls WHERE long_url = %s AND user_id = %s', (request.form['long-url'], user['id']))
+				if (db.fetchone()):
 
 					error = 'You\'ve already shorten this URL!'
 
@@ -89,18 +92,16 @@ def index():
 						
 						error = 'Length of custom url must be at least 3 characters!'
 					
-					elif db.execute('SELECT id FROM urls WHERE short_url = ?', [custom_url]).fetchone():
+					elif db.execute('SELECT id FROM urls WHERE short_url = %s', (custom_url, )) != None or db.fetchone():
 
 						error = 'Your custom URL is already taken!'
 					
 					elif not error:
 						
 						if url_name == "":
-							db.execute('INSERT INTO urls (long_url, short_url, user_id) values (?, ?, ?)', [long_url, custom_url, user['id']])
-							db.commit()
+							db.execute('INSERT INTO urls (long_url, short_url, user_id) values (%s, %s, %s)', (long_url, custom_url, user['id']))
 						else:
-							db.execute('INSERT INTO urls (long_url, short_url, user_id, url_name) values (?, ?, ?, ?)', [long_url, custom_url, user['id'], url_name])
-							db.commit()
+							db.execute('INSERT INTO urls (long_url, short_url, user_id, url_name) values (%s, %s, %s, %s)', (long_url, custom_url, user['id'], url_name))
 
 				else:
 
@@ -108,16 +109,18 @@ def index():
 					print(short_url)
 					
 					if url_name == "":
-						db.execute('INSERT INTO urls (long_url, short_url, user_id) values (?, ?, ?)', [long_url, short_url, user['id']])
-						db.commit()
+						db.execute('INSERT INTO urls (long_url, short_url, user_id) values (%s, %s, %s)', (long_url, short_url, user['id']))
 					else:
-						db.execute('INSERT INTO urls (long_url, short_url, user_id, url_name) values (?, ?, ?, ?)', [long_url, short_url, user['id'], url_name])
-						db.commit()
+						db.execute('INSERT INTO urls (long_url, short_url, user_id, url_name) values (%s, %s, %s, %s)', (long_url, short_url, user['id'], url_name))
 						
 		
 
-		user_urls_cur = db.execute('SELECT url_name, id, long_url, short_url FROM urls WHERE user_id = ?', [user['id']])
-		user_urls = user_urls_cur.fetchall()
+		db.execute('''SELECT url_name,
+					id, 
+					long_url, 
+					short_url 
+					FROM urls WHERE user_id = %s''', (user['id'], ))
+		user_urls = db.fetchall()
 	
 	return render_template('index.html', user=user, urls=user_urls, error=error, base_url=base_url)
 
@@ -131,21 +134,21 @@ def register():
 		db = get_db()
 		
 		# Check for existing user
-		existing_user_cur = db.execute('SELECT id FROM users WHERE username = ?', [request.form['username']])
-		existing_user = existing_user_cur.fetchone()
+		db.execute('SELECT id FROM users WHERE username = %s', (request.form['username'], ))
+		existing_user = db.fetchone()
 
 		# If existing user exists return to register page with error message
 		if existing_user:
 			return render_template('register.html', user=user, error='Username is already taken!')
 		
 		# If user doesn't exist
+
 		hashed_password = generate_password_hash(request.form['password'], 'sha256')
-		db.execute('INSERT INTO users(username, password, admin) VALUES (?, ?, ?)', [request.form['username'], hashed_password, '0'])
-		db.commit()
+		db.execute('INSERT INTO users(username, password, admin) VALUES(%s, %s, %s)', (request.form['username'], hashed_password, '0'))
 
 		session['user'] = request.form['username']
 
-		return redirect(url_for('index'))	
+		return redirect(url_for('index'))
 
 	return render_template('register.html', user=user)
 
@@ -165,8 +168,8 @@ def login():
 		username = request.form['username']
 		password = request.form['password']
 
-		user_result_cur = db.execute('SELECT id, username, password FROM users WHERE username = ?', [username])
-		user_result = user_result_cur.fetchone()
+		db.execute('SELECT id, username, password FROM users WHERE username = %s', (username, ))
+		user_result = db.fetchone()
 
 		if user_result and check_password_hash(user_result['password'], password):
 			session['user'] = user_result['username']
@@ -190,14 +193,14 @@ def delete_entry(url_id):
 	db = get_db()
 
 	print(url_id)
-	db.execute('DELETE FROM urls WHERE id = ?', [url_id, ])
+	db.execute('DELETE FROM urls WHERE id = %s', (url_id, ))
 
-	user_urls_cur = db.execute('''SELECT url_name,
+	db.execute('''SELECT url_name,
 					id, 
 					long_url, 
 					short_url 
-					FROM urls WHERE user_id = ?''', [user['id']])
-	user_urls = user_urls_cur.fetchall()
+					FROM urls WHERE user_id = %s''', (user['id'], ))
+	user_urls = db.fetchall()
 	
 	return render_template('index.html', user=user, urls=user_urls)
 
