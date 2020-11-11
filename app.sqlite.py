@@ -89,7 +89,7 @@ def index():
 						
 						error = 'Length of custom url must be at least 3 characters!'
 					
-					elif db.execute('SELECT id FROM urls WHERE short_url = %?', [custom_url]).fetchone():
+					elif db.execute('SELECT id FROM urls WHERE short_url = ?', [custom_url]).fetchone():
 
 						error = 'Your custom URL is already taken!'
 					
