@@ -16,13 +16,13 @@ URL shortner
 <form class="w3-padding-16 w3-border-bottom" method="POST" action="{{ url_for('index') }}">
 
     <div class="w3-row">
-        <div id="long-url-input" class="w3-col l7" style="padding-right: 16px; padding-left: 16px;">
+        <div id="long-url-input" class="w3-col l8" style="padding-right: 16px; padding-left: 16px;">
             <input class="w3-input w3-border" placeholder="https://example.com" name="long-url" type="url" required>
         </div>
         <div class="w3-col l4" style="padding-right: 16px; padding-left: 16px;">
             <input class="w3-input w3-border" placeholder="Name" name="url-name" type="text">
         </div>
-        <div class="w3-row w3-margin-left">
+        <div class="w3-row">
             <input id="custom-url-checkbox" class="w3-check w3-margin-top" type="checkbox" onchange="toggleCustomUrl()">
             <label>Custom url</label>
             <div id="custom-url-input" class="w3-input w3-hide w3-border w3-margin-top">
