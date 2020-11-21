@@ -10,9 +10,10 @@ Register
 {% endblock %}
 
 {% block page_content %}
-<div class="w3-content" style="margin-top: 200px;">
+<div class="w3-content" style="margin-top: 20%;">
     <div class="w3-container " style="border-top-left-radius: inherit; border-top-right-radius: inherit;">
         <h2>Register</h2>
+        <hr>
     </div>
     <form class="w3-container" method="POST" action="{{ url_for('register') }}">
         {% if error %}

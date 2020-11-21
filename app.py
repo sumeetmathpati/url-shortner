@@ -42,8 +42,6 @@ def redirect_short_url(short_url):
 	long_url_cur = db.execute('SELECT long_url FROM urls WHERE short_url = ?', [short_url])
 	long_url = long_url_cur.fetchone()
 
-	print(long_url)
-
 	if long_url:
 		return render_template('redirect.html', long_url=long_url)
 	else:
@@ -105,7 +103,6 @@ def index():
 				else:
 
 					short_url = encode(long_url)
-					print(short_url)
 					
 					if url_name == "":
 						db.execute('INSERT INTO urls (long_url, short_url, user_id) values (?, ?, ?)', [long_url, short_url, user['id']])
@@ -189,8 +186,9 @@ def delete_entry(url_id):
 	user = get_current_session_user()
 	db = get_db()
 
-	print(url_id)
-	db.execute('DELETE FROM urls WHERE id = ?', [url_id, ])
+	print('----------------', url_id)
+	db.execute('DELETE FROM urls WHERE id = ?', [url_id])
+	db.commit()
 
 	user_urls_cur = db.execute('''SELECT url_name,
 					id, 
