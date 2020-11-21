@@ -185,6 +185,7 @@ def delete_entry(url_id):
 
 	user = get_current_session_user()
 	db = get_db()
+	base_url = request.base_url
 
 	print('----------------', url_id)
 	db.execute('DELETE FROM urls WHERE id = ?', [url_id])
@@ -197,7 +198,7 @@ def delete_entry(url_id):
 					FROM urls WHERE user_id = ?''', [user['id']])
 	user_urls = user_urls_cur.fetchall()
 	
-	return render_template('index.html', user=user, urls=user_urls)
+	return render_template('index.html', user=user, urls=user_urls, base_url=base_url)
 
 
 
