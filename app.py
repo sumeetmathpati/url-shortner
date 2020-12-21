@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, session, redirect, g
+from flask import Flask, render_template, url_for, request, session, redirect, g, send_from_directory
 from database import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
 from short_url import encode

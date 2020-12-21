@@ -10,7 +10,7 @@ Register
 {% endblock %}
 
 {% block page_content %}
-<div class="w3-content" style="margin-top: 20%;">
+<div class="w3-border w3-border-blue w3-content w3-margin" style="border-radius: 8px; box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important;">
     <div class="w3-container " style="border-top-left-radius: inherit; border-top-right-radius: inherit;">
         <h2>Register</h2>
         <hr>
@@ -23,12 +23,12 @@ Register
         {% endif %}
         <p>
             <label class="w3-text-blue"><b>Username</b></label>
-            <input class="w3-input w3-border" name="username" type="text"></p>
+            <input class="w3-input w3-border w3-round" name="username" type="text"></p>
         <p>
             <label class="w3-text-blue"><b>Password</b></label>
-            <input class="w3-input w3-border" name="password" type="password"></p>
+            <input class="w3-input w3-border w3-round" name="password" type="password"></p>
         <p>
-            <button class="w3-btn w3-blue">Register</button></p>
+            <button class="w3-btn w3-blue w3-round">Register</button></p>
     </form>
 </div>
 {% endblock %}

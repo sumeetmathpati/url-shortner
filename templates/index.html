@@ -16,11 +16,11 @@ URL shortner
 <form class="w3-padding-16 w3-border-bottom" method="POST" action="{{ url_for('index') }}">
 
     <div class="w3-row">
-        <div id="long-url-input" class="w3-col l8" style="padding-right: 16px; padding-left: 16px;">
-            <input class="w3-input w3-border" placeholder="https://example.com" name="long-url" type="url" required>
+        <div id="long-url-input" class="w3-col l8" style="padding-right: 16px; padding-left: 16px; ">
+            <input class="w3-input w3-border w3-round" placeholder="https://example.com" name="long-url" type="url" style="box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important;" required >
         </div>
         <div class="w3-col l4" style="padding-right: 16px; padding-left: 16px;">
-            <input class="w3-input w3-border" placeholder="Name" name="url-name" type="text">
+            <input class="w3-input w3-border w3-round" placeholder="Name" name="url-name" type="text" style="box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important;">
         </div>
         <div class="w3-row" style="padding-right: 16px; padding-left: 16px;">
             <input id="custom-url-checkbox" class="w3-check w3-margin-top" type="checkbox" onchange="toggleCustomUrl()">
@@ -32,9 +32,9 @@ URL shortner
 
         </div>
         <div class="w3-row w3-margin">
-            <button class="w3-btn w3-blue">Submit</button>
+            <button class="w3-btn w3-blue w3-round">Submit</button>
             {% if error %}
-            <div class="w3-panel w3-pale-red" style="border: 1px solid red;">
+            <div class="w3-panel w3-pale-red w3-round" style="border: 1px solid red; box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important;">
                 <p>{{ error }}</p>
             </div>
             {% endif %}
@@ -47,13 +47,14 @@ URL shortner
     <ul class="w3-ul">
 
         {% for url in urls %}
-        <li class="w3-margin-left w3-margin-right w3-margin-top w3-border" onclick="show_chart('{{ url['short_url'] }}_chart')">
+        <li class="w3-margin-left w3-margin-right w3-margin-top w3-border" onclick="show_chart('{{ url['short_url'] }}_chart')" style="box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important; border-radius: 8px;">
             <a href="{{ url_for('delete_entry', url_id=url['id']) }}"><span
-                    class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span></a>
-            <p style="font-size: 20px;"><strong>{% if url['url_name'] %} {{ url['url_name'] }} {% else %}
-                    {{ url['long_url'] }} {% endif %}</strong></p>
+                    class="w3-bar-item w3-button w3-white w3-xlarge w3-right w3-round">×</span></a>
+            <p style="font-size: 32px;">{% if url['url_name'] %} {{ url['url_name'] }} {% else %}
+                    {{ url['long_url'] }} {% endif %}</p>
             <a style="text-decoration: none;" href="{{ url['long_url'] }}">
-                <p class="w3-text-blue">{{ base_url }}{{ url['short_url'] }}</p>
+                <p class="w3-text-blue" style="font-size: 24px;"><span class="w3-text-gray">Short url:</span>{{ base_url }}{{ url['short_url'] }}</p>
+                <p class="w3-text-blue"> <span class="w3-text-gray">Origional url:</span>  {{ url['long_url'] }}</p>
             </a>
         </li>
         {% endfor %}
@@ -64,9 +65,8 @@ URL shortner
 
 <div class="w3-container w3-content">
 
-    <h1 class="w3-blue w3-text-white" style="font-size: 64px; font-weight: bold;">You have to login first</h1>
-    <h1 class="w3-blue w3-text-white">To get your URL shortened.</h1>
-
+    <h1 class="w3-blue w3-text-white" style="font-size: 64px; font-weight: bold; display: inline; padding-right: 8px; padding-left: 8px;">You have to login first.</h1><br>
+    <h1 class="w3-blue w3-text-white" style="display: inline; padding-right: 8px; padding-left: 8px;">To get your URL shortened.</h1>
 </div>
 
 {% endif %}
