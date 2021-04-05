@@ -13,21 +13,21 @@ URL shortner
 
 {% if user %}
 
-<form class="w3-padding-16 w3-border-bottom" method="POST" action="{{ url_for('index') }}">
+<form class="w3-padding-16" method="POST" action="{{ url_for('index') }}"> 
 
-    <div class="w3-row">
+    <div class="w3-row w3-round-large" style="background-color: #333; padding-top: 32px;">
         <div id="long-url-input" class="w3-col l8" style="padding-right: 16px; padding-left: 16px; ">
-            <input class="w3-input w3-border w3-round" placeholder="https://example.com" name="long-url" type="url" style="box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important;" required >
+            <input class="w3-input w3-text-white w3-border w3-round" placeholder="https://example.com" name="long-url" type="url" style="background-color: #222; border: none;" required >
         </div>
         <div class="w3-col l4" style="padding-right: 16px; padding-left: 16px;">
-            <input class="w3-input w3-border w3-round" placeholder="Name" name="url-name" type="text" style="box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important;">
+            <input class="w3-input w3-border w3-round w3-text-white" placeholder="Name" name="url-name" type="text" style="background-color: #222; border: none;">
         </div>
         <div class="w3-row" style="padding-right: 16px; padding-left: 16px;">
-            <input id="custom-url-checkbox" class="w3-check w3-margin-top" type="checkbox" onchange="toggleCustomUrl()">
-            <label>Custom url</label>
+            <input class="w3-text-white" id="custom-url-checkbox" class="w3-check w3-margin-top" type="checkbox" onchange="toggleCustomUrl()" style="background-color: #222; border: none;">
+            <label class="w3-text-white">Custom url</label>
             <div id="custom-url-input" class="w3-input w3-hide w3-border w3-margin-top">
-                <label>base_url/</label>
-                <input placeholder="Custom url" name="custom-url" type="text" style="border: 0;">
+                <label class="w3-text-white">base_url/</label>
+                <input class="w3-input w3-text-white w3-border w3-round" placeholder="Custom url" name="custom-url" type="text" style="background-color: #222; border: none;">
             </div>
 
         </div>
@@ -47,10 +47,10 @@ URL shortner
     <ul class="w3-ul">
 
         {% for url in urls %}
-        <li class="w3-margin-left w3-margin-right w3-margin-top w3-border" onclick="show_chart('{{ url['short_url'] }}_chart')" style="box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important; border-radius: 8px;">
+        <li class="w3-margin-top" onclick="show_chart('{{ url['short_url'] }}_chart')" style="box-shadow: 0 15px 35px rgba(50,50,93,0.1),0 5px 15px rgba(0,0,0,0.07) !important; border-radius: 8px; background-color: #333;">
             <a href="{{ url_for('delete_entry', url_id=url['id']) }}"><span
-                    class="w3-bar-item w3-button w3-white w3-xlarge w3-right w3-round">×</span></a>
-            <p style="font-size: 32px;">{% if url['url_name'] %} {{ url['url_name'] }} {% else %}
+                    class="w3-round-large w3-bar-item w3-button w3-right w3-text-white w3-hover-dark-grey">×</span></a>
+            <p style="font-size: 32px; color: white;">{% if url['url_name'] %} {{ url['url_name'] }} {% else %}
                     {{ url['long_url'] }} {% endif %}</p>
             <a style="text-decoration: none;" href="{{ url['long_url'] }}">
                 <p class="w3-text-blue" style="font-size: 24px;"><span class="w3-text-gray">Short url:</span>{{ base_url }}{{ url['short_url'] }}</p>
@@ -63,10 +63,10 @@ URL shortner
 
 {% else %}
 
-<div class="w3-container w3-content">
+<div class="w3-container w3-content w3-round-xxlarge" style="background-color: #333; padding-bottom: 128px; padding-top: 32px;">
 
-    <h1 class="w3-blue w3-text-white" style="font-size: 64px; font-weight: bold; display: inline; padding-right: 8px; padding-left: 8px;">You have to login first.</h1><br>
-    <h1 class="w3-blue w3-text-white" style="display: inline; padding-right: 8px; padding-left: 8px;">To get your URL shortened.</h1>
+    <h1 class="w3-text-white" style="font-size: 64px; font-weight: bold; display: inline; padding-right: 8px; padding-left: 8px;">You have to login first.</h1><br>
+    <h1 class="w3-text-white" style="display: inline; padding-right: 8px; padding-left: 8px;">To get your URL shortened.</h1>
 </div>
 
 {% endif %}

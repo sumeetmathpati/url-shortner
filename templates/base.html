@@ -8,15 +8,16 @@
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+    
 </head>
 
-<body>
+<body style="background-color: #222;">
 
 
     {% block navbar %}{% endblock %}
 
-    <div id="page-content" class="w3-content" style="margin-top: 64px;">
+    <div id="page-content" class="w3-content w3-padding" style="margin-top: 64px;">
 
         {% block page_content %}{% endblock %}
 
