@@ -110,6 +110,10 @@ def index():
 					else:
 						db.execute('INSERT INTO urls (long_url, short_url, user_id, url_name) values (?, ?, ?, ?)', [long_url, short_url, user['id'], url_name])
 						db.commit()
+					
+					user_urls_cur = db.execute('SELECT url_name, id, long_url, short_url FROM urls WHERE user_id = ?', [user['id']])
+					user_urls = user_urls_cur.fetchall()
+					return redirect(url_for('index', user=user, urls=user_urls, error=error, base_url=base_url))
 						
 		
 
